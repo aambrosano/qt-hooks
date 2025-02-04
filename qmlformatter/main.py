@@ -13,17 +13,7 @@ def main():
     args = parser.parse_args()
     files = args.filenames
     files = [str(Path(file).resolve(True)) for file in files]
-
-    if IS_WINDOWS:
-        qml_format = "qmlformat"
-    else:
-        shared_o = Path(__file__).parent / "lib"
-        shared_o.resolve(True)
-        qmlformat = "qmlformat.so"
-        qml_format = Path(__file__).parent / "lib" / qmlformat
-        assert qml_format.exists()
-
-    p = Popen(args=[str(qml_format), *files, "--inplace"])
+    p = Popen(args=["qmlformat", *files, "--inplace"])
     p.wait(2000)
     while p.poll() is None:
         ...
