@@ -15,12 +15,12 @@ def main():
 
     # allow qmlformat tool to be injected through the environment so we can use
     # different version of qmlformat than whatever Qt version we have on PATH
-    qmlformat_env_cmd = Path(os.environ.get("PRECOMMIT_QT_HOOKS_QMLFORMAT", None))
+    qmlformat_env_cmd = os.environ.get("PRECOMMIT_QT_HOOKS_QMLFORMAT", None)
     qmlformat_cmd = "qmlformat"
 
     if qmlformat_env_cmd is not None:
-        if not Path.exists(qmlformat_env_cmd) or not Path.is_file(qmlformat_env_cmd):
-            print("PRECOMMIT_QT_HOOKS_QMLFORMAT points to an invalid file, ignoring.")
+        if not Path.exists(Path(qmlformat_env_cmd)) or not Path.is_file(Path(qmlformat_env_cmd)):
+            print("PRECOMMIT_QT_HOOKS_QMLFORMAT points to an invalid file {}, ignoring.".format(qmlformat_env_cmd))
         else:
             qmlformat_cmd = qmlformat_env_cmd
 
